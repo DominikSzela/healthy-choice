@@ -1,4 +1,18 @@
+:root{
+  --light: #79dee7;
+  --primary: #1fcbe3;
+  --secondary: #0099bf;
+  /* --light: #dee10a;
+  --primary: #a9c229;
+  --secondary: #4e7906; */
+}
+
+html{
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -7,7 +21,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root{
+  height: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button{ cursor: pointer;}
