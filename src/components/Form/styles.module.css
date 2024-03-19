@@ -1,0 +1,11 @@
+.wrapper{
+    width: 600px;
+    height: 800px;
+    border: 2px solid var(--secondary);
+    background-color: var(--light);
+    border-radius: 10px;      
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
