@@ -1,20 +1,15 @@
 import './index.css';
+import styles from './app.module.css';
 import Form from './components/Form/Form';
+import Recommendations from './components/Recommendations/Recommendations';
 
 function App() {
-  const styles = {
-    wrapper: {
-      backgroundColor: 'var(--primary)',
-      height: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
-  };
-
   return (
-    <div style={styles.wrapper}>
-      <Form />
+    <div className={styles.background}>
+      <div className={styles.wrapper}>
+        <Form />
+        <Recommendations />
+      </div>
     </div >
   );
 }

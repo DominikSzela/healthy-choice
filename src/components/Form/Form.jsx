@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import styles from './styles.module.css';
-
+import styles from './form.module.css';
 
 const Form = () => {
     const [formData, setFormData] = useState({
@@ -17,6 +16,14 @@ const Form = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(formData);
+        fetch("http://localhost:8081/submitted", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
     }
 
     return (
