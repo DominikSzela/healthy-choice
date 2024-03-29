@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styles from './form.module.css';
 
-const Form = () => {
+const Form = ({ handleSubmitted }) => {
     const [formData, setFormData] = useState({
-        waga: 0,
-        wiek: 0,
-        wzrost: 0,
+        age: 0,
+        weight: 0,
+        height: 0,
     })
 
     const handleChange = (event) => {
@@ -16,7 +16,8 @@ const Form = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(formData);
-        fetch("http://localhost:8081/submitted", {
+
+        fetch("http://localhost:8081/healthy_choice/submitted", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),
@@ -24,25 +25,27 @@ const Form = () => {
             .then(res => res.json())
             .then(data => console.log(data))
             .catch(error => console.error('Error:', error));
+
+        handleSubmitted();
     }
 
     return (
         <form onSubmit={handleSubmit} className={styles.wrapper}>
             <label>
-                Waga:
+                Wiek:
                 <input
                     type='number'
-                    name='waga'
-                    value={formData.waga}
+                    name='age'
+                    value={formData.age}
                     onChange={handleChange}
                 />
             </label>
             <label>
-                Wiek:
+                Waga:
                 <input
                     type='number'
-                    name='wiek'
-                    value={formData.wiek}
+                    name='weight'
+                    value={formData.weight}
                     onChange={handleChange}
                 />
             </label>
@@ -50,8 +53,8 @@ const Form = () => {
                 Wzrost:
                 <input
                     type='number'
-                    name='wzrost'
-                    value={formData.wzrost}
+                    name='height'
+                    value={formData.height}
                     onChange={handleChange}
                 />
             </label>
