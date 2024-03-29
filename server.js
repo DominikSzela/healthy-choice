@@ -13,33 +13,45 @@ app.use((req, res, next) => {
 
 let db = mysql.createConnection({
     host: 'localhost',
-    database: 'employee_database',
+    database: 'healthy_choice',
     user: 'root',
     password: '12345'
 })
 
-app.get('/', (req, res) => {
-    return res.json("Backend are working :)!");
+let personalData = {
+    weight: 0,
+    age: 0,
+    height: 0,
+};
+
+app.get('/healthy_choice', (req, res) => {
+    res.json(personalData);
 })
 
-app.get('/employee_database', (re, res) => {
-    const sql = "SELECT * FROM employee_info";
+app.post('/healthy_choice/submitted', (req, res) => {
+    personalData = req.body;
+})
+
+app.get('/healthy_choice/diet', (req, res) => {
+    const sql = "SELECT * FROM diet";
+    db.query(sql, (err, data) => {
+        if (err) return res.json(err);
+        res.json(data);
+    })
+})
+app.get('/healthy_choice/equipment', (req, res) => {
+    const sql = "SELECT * FROM equipment";
     db.query(sql, (err, data) => {
         if (err) return res.json(err);
         res.json(data);
     })
 })
 
-app.post('/submitted', (req, res) => {
-    const { waga, wiek, wzrost } = req.body;
-    const sql = "INSERT INTO employee_info (waga, wiek, wzrost) VALUES (?, ?, ?)"
-    db.query(sql, [waga, wiek, wzrost], (err, result) => {
-        if (err) {
-            console.log("error INSERT employee_info:", err);
-            return res.status(500).json({ message: "inserting error" })
-        }
-        console.log('inserting result:', result);
-        res.json({ "message": "Form submitted" });
+app.get('/healthy_choice/supplements', (req, res) => {
+    const sql = "SELECT * FROM supplements";
+    db.query(sql, (err, data) => {
+        if (err) return res.json(err);
+        res.json(data);
     })
 })
 
