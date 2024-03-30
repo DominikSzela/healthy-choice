@@ -32,8 +32,8 @@ app.post('/healthy_choice/submitted', (req, res) => {
     personalData = req.body;
 })
 
-app.get('/healthy_choice/diet', (req, res) => {
-    const sql = "SELECT * FROM diet";
+app.get('/healthy_choice/diets', (req, res) => {
+    const sql = "SELECT * FROM diets";
     db.query(sql, (err, data) => {
         if (err) return res.json(err);
         res.json(data);

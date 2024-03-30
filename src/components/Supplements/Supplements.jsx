@@ -12,9 +12,10 @@ const Supplements = () => {
     return (
         <div>
             <div>Suplementy:</div>
-            {data.map((item) => (
-                <div key={item.id}>
-                    <div>{item.gym_supplements}</div>
+            {data.map((supplement) => (
+                <div key={supplement.id}>
+                    <div>{supplement.type}</div>
+                    <div>{supplement.name}</div>
                 </div>
             ))}
         </div>

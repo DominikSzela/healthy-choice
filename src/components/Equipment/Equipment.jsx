@@ -14,7 +14,8 @@ const Equipment = () => {
             <div>Wyposażenie:</div>
             {data.map((item) => (
                 <div key={item.id}>
-                    <div>{item.gym_equipment}</div>
+                    <div>{item.type}</div>
+                    <div>{item.name}</div>
                 </div>
             ))}
         </div>
