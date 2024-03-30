@@ -1,24 +1,17 @@
-import { useEffect, useState } from 'react';
+import Diet from '../Diet/Diet';
+import Supplements from '../Supplements/Supplements';
+import Equipment from '../Equipment/Equipment';
 
-const Recommendations = () => {
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:8081/employee_database')
-            .then(res => res.json())
-            .then(data => setData(data))
-            .catch(err => console.log(err));
-    }, []);
+const Recommendations = ({ handleSubmitted }) => {
 
     return (
         <div>
-            {data.map((item, index) => (
-                <div key={index}>
-                    <div>{item.id}</div>
-                    <div>{item.wiek}lat</div>
-                    <div>{item.waga}kg</div>
-                    <div>{item.wzrost}cm</div>
-                </div>
-            ))}
+            <div>
+                <Diet />
+                <Equipment />
+                <Supplements />
+            </div>
+            <button onClick={handleSubmitted}>Powrót</button>
         </div>
     )
 }
