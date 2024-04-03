@@ -1,0 +1,17 @@
+.wrapper{
+    height: 20%;
+    display: flex;
+    justify-content:space-between;
+    align-items: end;
+}
+
+button{
+    width: 180px;
+    height: 70px;
+    background: var(--light);
+    border: var(--secondary) 5px solid;
+    border-radius: 5px;
+    color: var(--secondary);
+    font-size: 18px;
+    font-weight: 800;
+}
