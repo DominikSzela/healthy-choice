@@ -19,9 +19,12 @@ let db = mysql.createConnection({
 })
 
 let personalData = {
-    weight: 0,
+    gender: "female",
     age: 0,
     height: 0,
+    weight: 0,
+    trainingDays: "0-1",
+    goal: "weight_loss"
 };
 
 app.get('/healthy_choice', (req, res) => {
