@@ -1,19 +1,34 @@
-.background{
-    background-color: var(--primary);
+.app{
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.wrapper{
-    width: 600px;
-    height: 800px;
-    border: 2px solid var(--secondary);
-    background-color: var(--light);
-    border-radius: 10px;      
+.displayLeft{
+    width: 40%;
+    height: 100%;
+    padding: 30px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    border-right: 7px solid var(--secondary);
+    color: var(--secondary);
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.displayRight{
+    width: 60%;
+    height: 100%;
+    padding: 60px;
+    float: right;
     display: flex;
     flex-direction: column;
+}
+
+.view{
+    height: 80%;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
