@@ -37,25 +37,29 @@ const Form = forwardRef((props, ref) => {
             <div className={styles.radios}>
                 <div>
                     <label>
-                        kobieta<br></br>
-                        <input
-                            type='radio'
-                            name='gender'
-                            value='female'
-                            onChange={handleChange}
-                            defaultChecked
-                        />
+                        Kobieta<br></br>
+                        <div className={styles.inputs}>
+                            <input
+                                type='radio'
+                                name='gender'
+                                value='female'
+                                onChange={handleChange}
+                                defaultChecked
+                            />
+                        </div>
                     </label>
                 </div>
                 <div>
                     <label>
-                        mężczyzna<br></br>
-                        <input
-                            type='radio'
-                            name='gender'
-                            value='male'
-                            onChange={handleChange}
-                        />
+                        Mężczyzna<br></br>
+                        <div className={styles.inputs}>
+                            <input
+                                type='radio'
+                                name='gender'
+                                value='male'
+                                onChange={handleChange}
+                            />
+                        </div>
                     </label>
                 </div>
             </div>

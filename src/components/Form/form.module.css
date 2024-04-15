@@ -24,8 +24,34 @@ input{
     border: var(--secondary) 5px solid;
     color: var(--secondary);
 }
+
+
+
+/* radio inputs */
+
 .radios{
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+}
+
+.inputs{
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type=radio] {
+    width: 0px;
+    appearance: none;
+    padding: 8px;
+    border: 2px solid var(--secondary);
+    border-radius: 50%;
+    transition: 0.1s all linear;
+}
+
+input[type=radio]:checked  {
+    padding: 5px;
+    border-width: 5px;
 }
