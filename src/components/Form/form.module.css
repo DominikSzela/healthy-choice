@@ -9,20 +9,18 @@
 label{
     width: 100%;
     margin: 10px 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--secondary);
 }
 
-input{
+input, select{
     padding: 10px 15px;
-    margin: 5px 0;
+    margin-top: 5px;
     width: 100%;
-    font-size: 18px;
-    font-weight: 700;
     border-radius: 5px;
     border: var(--secondary) 5px solid;
-    color: var(--secondary);
+}
+
+select {
+    background: transparent;
 }
 
 

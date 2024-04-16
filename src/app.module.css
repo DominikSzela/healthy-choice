@@ -12,7 +12,9 @@
     justify-content: center;
     background-color: var(--primary);
     border-right: 7px solid var(--secondary);
-    color: var(--secondary);
+}
+
+.brand{
     font-size: 40px;
     font-weight: 800;
 }

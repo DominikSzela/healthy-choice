@@ -19,7 +19,7 @@ function App() {
   return (
     <div className={styles.app}>
       <div className={styles.displayLeft}>
-        <div>Healthy Choice</div>
+        <div className={styles.brand}>Healthy Choice</div>
       </div>
       <div className={styles.displayRight}>
         <div className={styles.view}>
