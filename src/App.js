@@ -10,7 +10,10 @@ function App() {
   const [step, setStep] = useState(1);
   const formRef = useRef();
   const nextStep = () => {
-    if (step === 1) formRef.current.handleSubmit(); //use handleSubmit() from Form component, to send form
+    if (step === 1) {
+      formRef.current.handleSubmit(); //use handleSubmit() from Form component, to send form
+      if (!formRef.current.validForm) return;
+    }
     setStep(step + 1)
   };
   const previousStep = () => setStep(step - 1);

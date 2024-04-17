@@ -2,6 +2,8 @@ import styles from './form.module.css';
 import { useState, forwardRef, useImperativeHandle } from 'react';
 
 const Form = forwardRef((props, ref) => {
+    const [validForm, setValidForm] = useState(false);
+
     const [formData, setFormData] = useState({
         gender: "female",
         age: 0,
@@ -17,6 +19,14 @@ const Form = forwardRef((props, ref) => {
     }
 
     const handleSubmit = () => {
+        if ((0 < formData.age && formData.height && formData.weight < 300)) {
+            setValidForm(true);
+        }
+        else {
+            setValidForm(false);
+            return;
+        }
+
         fetch("http://localhost:8081/healthy_choice/submitted", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
