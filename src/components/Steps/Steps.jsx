@@ -1,6 +1,16 @@
 import styles from './steps.module.css'
+import { forwardRef, useImperativeHandle } from 'react';
 
-const Steps = ({ step, textError, nextStep, previousStep }) => {
+const Steps = forwardRef(({ formRef, step, textError, setStep }, ref) => {
+    const nextStep = () => {
+        if (step === 1) {
+            const isFormSent = formRef.current.handleSubmit() //use handleSubmit() from Form component, to send form
+            if (!isFormSent) return;
+        }
+        setStep(step + 1);
+    };
+
+    const previousStep = () => setStep(step - 1);
 
     return (
         <div className={styles.wrapper}>
@@ -19,6 +29,6 @@ const Steps = ({ step, textError, nextStep, previousStep }) => {
             }
         </div>
     )
-}
+})
 
 export default Steps;

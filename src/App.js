@@ -11,17 +11,6 @@ function App() {
   const [textError, setTextError] = useState(null);
   const formRef = useRef();
 
-  const nextStep = () => {
-    if (step === 1) {
-      const isFormSent = formRef.current.handleSubmit() //use handleSubmit() from Form component, to send form
-      if (!isFormSent) return;
-    }
-    setStep(step + 1);
-  };
-
-  const previousStep = () => setStep(step - 1);
-
-
   return (
     <div className={styles.app}>
       <div className={styles.displayLeft}>
@@ -35,10 +24,10 @@ function App() {
           {step === 4 && <Supplements />}
         </div>
         <Steps
+          formRef={formRef}
           step={step}
           textError={textError}
-          nextStep={nextStep}
-          previousStep={previousStep}
+          setStep={setStep}
         />
       </div>
     </div >
