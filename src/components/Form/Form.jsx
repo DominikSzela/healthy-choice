@@ -1,3 +1,4 @@
+import { postForm } from '../../API/Form';
 import styles from './form.module.css';
 import { useState, forwardRef, useImperativeHandle } from 'react';
 
@@ -101,27 +102,15 @@ const Form = forwardRef(({ setTextError }, ref) => {
         });
     }
 
-
     const checkForm = () => {
         resetInputsStyles();
         return (checkAge() && checkHeight() && checkWeight());
     }
 
-    const sendData = () => {
-        fetch("http://localhost:8081/healthy_choice/submitted", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-        })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-    }
-
 
     const handleSubmit = () => {
         if (checkForm()) {
-            sendData();
+            postForm(formData);
             return true;
         }
         else return false;
