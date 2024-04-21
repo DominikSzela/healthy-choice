@@ -24,6 +24,9 @@ select {
 }
 
 
+/* validation */
+.errorInput{border-color: var(--error);}
+.normalInput{border-color: var(--secondary);}
 
 /* radio inputs */
 
