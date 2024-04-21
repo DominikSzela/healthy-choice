@@ -8,14 +8,17 @@ import Steps from './components/Steps/Steps';
 
 function App() {
   const [step, setStep] = useState(1);
+  const [textError, setTextError] = useState(null);
   const formRef = useRef();
+
   const nextStep = () => {
     if (step === 1) {
-      formRef.current.handleSubmit(); //use handleSubmit() from Form component, to send form
-      if (!formRef.current.validForm) return;
+      const isFormSent = formRef.current.handleSubmit() //use handleSubmit() from Form component, to send form
+      if (!isFormSent) return;
     }
-    setStep(step + 1)
+    setStep(step + 1);
   };
+
   const previousStep = () => setStep(step - 1);
 
 
@@ -26,13 +29,14 @@ function App() {
       </div>
       <div className={styles.displayRight}>
         <div className={styles.view}>
-          {step === 1 && <Form ref={formRef} />}
+          {step === 1 && <Form ref={formRef} setTextError={setTextError} />}
           {step === 2 && <Diet />}
           {step === 3 && <Equipment />}
           {step === 4 && <Supplements />}
         </div>
         <Steps
           step={step}
+          textError={textError}
           nextStep={nextStep}
           previousStep={previousStep}
         />

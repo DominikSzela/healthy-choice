@@ -13,3 +13,5 @@ button{
     border-radius: 5px;
     font-weight: 800;
 }
+
+.textError{color: var(--error);}

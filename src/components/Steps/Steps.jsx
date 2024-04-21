@@ -1,9 +1,12 @@
 import styles from './steps.module.css'
 
-const Steps = ({ step, nextStep, previousStep }) => {
+const Steps = ({ step, textError, nextStep, previousStep }) => {
 
     return (
         <div className={styles.wrapper}>
+            {textError && (
+                <div className={styles.textError} >{textError}</div>
+            )}
             {step !== 1 ?
                 (<button onClick={previousStep}>Poprzedni</button>)
                 :
