@@ -1,10 +1,10 @@
 import styles from './app.module.css';
 import { useRef, useState } from 'react';
-import Form from './components/Form/Form';
-import Diet from './components/Diet/Diet';
-import Equipment from './components/Equipment/Equipment';
-import Supplements from './components/Supplements/Supplements';
-import Steps from './components/Steps/Steps';
+import Form from '../components/Form/Form';
+import Diet from '../components/Diet/Diet';
+import Equipment from '../components/Equipment/Equipment';
+import Supplements from '../components/Supplements/Supplements';
+import Steps from '../components/Steps/Steps';
 
 function App() {
   const [step, setStep] = useState(1);

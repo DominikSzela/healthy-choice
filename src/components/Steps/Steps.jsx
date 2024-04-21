@@ -1,5 +1,5 @@
 import styles from './steps.module.css'
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef } from 'react';
 
 const Steps = forwardRef(({ formRef, step, textError, setStep }, ref) => {
     const nextStep = () => {
