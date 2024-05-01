@@ -5,108 +5,59 @@ import { useState, forwardRef, useImperativeHandle } from 'react';
 const Form = forwardRef(({ setTextError }, ref) => {
     const [formData, setFormData] = useState({
         gender: "female",
-        age: 0,
-        height: 0,
-        weight: 0,
+        age: "",
+        height: "",
+        weight: "",
         trainingDays: "0-1",
         goal: "weight_loss",
     })
 
-    const [inputsRange, setInputsRange] = useState({
-        age: {
-            min: 0,
-            max: 250,
-            classInput: styles.normalInput
-        },
-        height: {
-            min: 0,
-            max: 300,
-            classInput: styles.normalInput
-        },
-        weight: {
-            min: 0,
-            max: 350,
-            classInput: styles.normalInput
-        }
-    })
+    const [RangeAndStyle, setRangeAndStyle] = useState({
+        age: { min: 1, max: 250, classInput: styles.normalInput },
+        height: { min: 1, max: 300, classInput: styles.normalInput },
+        weight: { min: 1, max: 350, classInput: styles.normalInput }
+    });
+
+    const handleKeyDown = (event) => {
+        if (event.key === '-' || event.key === '.' || event.key === 'e') event.preventDefault(); //allow only numbers from 0 to 9
+        event.target.value = event.target.value.replace(/^0/, ""); //prevents zeros before numbers
+    }
+
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((currentState) => ({ ...currentState, [name]: value }));
     }
 
-    const checkAge = () => {
-        const condition = (inputsRange.age.min <= formData.age && formData.age < inputsRange.age.max);
-        if (!condition) {
-            setTextError(`Dostępny przedział wieku jest od ${inputsRange.age.min} do ${inputsRange.age.max} cm`);
-            setInputsRange(prevRange => ({
-                ...prevRange,
-                age: { ...prevRange.age, classInput: styles.errorInput }
-            }))
-        }
-        else {
-            setTextError(null);
-            setInputsRange(prevRange => ({
-                ...prevRange,
-                age: { ...prevRange.age, classInput: styles.normalInput }
-            }))
-        };
-        return condition;
-    }
-
-    const checkHeight = () => {
-        const condition = (inputsRange.height.min <= formData.height && formData.height < inputsRange.height.max);
-        if (!condition) {
-            setTextError(`Dostępny przedział wzrostu jest od ${inputsRange.height.min} do ${inputsRange.height.max} cm`)
-            setInputsRange(prevRange => ({
-                ...prevRange,
-                height: { ...prevRange.height, classInput: styles.errorInput }
-            }))
-        }
-        else {
-            setTextError(null);
-            setInputsRange(prevRange => ({
-                ...prevRange,
-                height: { ...prevRange.height, classInput: styles.normalInput }
-            }))
-        };
-        return condition;
-    }
-
-    const checkWeight = () => {
-        const condition = (inputsRange.weight.min <= formData.weight && formData.weight < inputsRange.weight.max);
-        if (!condition) {
-            setTextError(`Dostępny przedział wagi jest od ${inputsRange.weight.min} do ${inputsRange.weight.max} cm`)
-            setInputsRange(prevRange => ({
-                ...prevRange,
-                weight: { ...prevRange.weight, classInput: styles.errorInput }
-            }))
-        }
-        else {
-            setTextError(null);
-            setInputsRange(prevRange => ({
-                ...prevRange,
-                weight: { ...prevRange.weight, classInput: styles.normalInput }
-            }))
-        };
-        return condition;
-    }
-
     const resetInputsStyles = () => {
-        setInputsRange(prevRange => {
-            const ranges = { ...prevRange };
-            for (const item in ranges) {
-                ranges[item].classInput = styles.normalInput;
+        setRangeAndStyle(() => {
+            for (const category in RangeAndStyle) {
+                RangeAndStyle[category].classInput = styles.normalInput;
             }
-            return ranges;
+            return RangeAndStyle;
         });
-    }
+    };
+
+    const validateInput = (category, { min, max }, inputValue, missingText) => {
+        const condition = min <= inputValue && inputValue <= max;
+        setTextError(condition ? null : `Dostępny przedział ${missingText} jest od ${min} do ${max} cm`);
+        const classInput = condition ? styles.normalInput : styles.errorInput;
+        setRangeAndStyle(prevRangeAndStyle => ({
+            ...prevRangeAndStyle,
+            [category]: { ...prevRangeAndStyle[category], classInput }
+        }));
+        return condition;
+    };
 
     const checkForm = () => {
         resetInputsStyles();
-        return (checkAge() && checkHeight() && checkWeight());
-    }
-
+        const { age, height, weight } = formData;
+        return (
+            validateInput('age', RangeAndStyle.age, age, 'wieku') &&
+            validateInput('height', RangeAndStyle.height, height, 'wzrostu') &&
+            validateInput('weight', RangeAndStyle.weight, weight, 'wagi')
+        );
+    };
 
     const handleSubmit = () => {
         if (checkForm()) {
@@ -156,7 +107,8 @@ const Form = forwardRef(({ setTextError }, ref) => {
                     name='age'
                     value={formData.age}
                     onChange={handleChange}
-                    className={inputsRange.age.classInput}
+                    onKeyDown={handleKeyDown}
+                    className={RangeAndStyle.age.classInput}
                 />
             </label>
             <label>
@@ -166,7 +118,8 @@ const Form = forwardRef(({ setTextError }, ref) => {
                     name='height'
                     value={formData.height}
                     onChange={handleChange}
-                    className={inputsRange.height.classInput}
+                    onKeyDown={handleKeyDown}
+                    className={RangeAndStyle.height.classInput}
                 />
             </label>
             <label>
@@ -176,7 +129,8 @@ const Form = forwardRef(({ setTextError }, ref) => {
                     name='weight'
                     value={formData.weight}
                     onChange={handleChange}
-                    className={inputsRange.weight.classInput}
+                    onKeyDown={handleKeyDown}
+                    className={RangeAndStyle.weight.classInput}
                 />
             </label>
             <label>
