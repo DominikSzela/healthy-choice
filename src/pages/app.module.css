@@ -1,0 +1,36 @@
+.app{
+    height: 100%;
+}
+
+.displayLeft{
+    width: 40%;
+    height: 100%;
+    padding: 30px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    border-right: 7px solid var(--secondary);
+}
+
+h1{
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.displayRight{
+    width: 60%;
+    height: 100%;
+    padding: 60px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.view{
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

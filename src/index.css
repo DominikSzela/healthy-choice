@@ -1,3 +1,13 @@
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  color: var(--secondary);
+  font-size: 18px;
+  font-weight: 700;
+}
+
 :root{
   --light: #79dee7;
   --primary: #1fcbe3;
@@ -5,6 +15,12 @@
   /* --light: #dee10a;
   --primary: #a9c229;
   --secondary: #4e7906; */
+  --error: #f05858 ;
+}
+
+::selection {
+  background-color: var(--secondary); /* change background color of selected text */
+  color: white; /* change color of selected text */
 }
 
 html{
@@ -31,3 +47,15 @@ code {
 }
 
 button{ cursor: pointer;}
+
+/* hide arrows from input number for Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* hide arrows from input number for Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

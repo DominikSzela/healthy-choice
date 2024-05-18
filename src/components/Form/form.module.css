@@ -3,4 +3,56 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+}
+
+label{
+    width: 100%;
+    margin: 10px 0;
+}
+
+input, select{
+    padding: 10px 15px;
+    margin-top: 5px;
+    width: 100%;
+    border-radius: 5px;
+    border: var(--secondary) 5px solid;
+}
+
+select {
+    background: transparent;
+}
+
+
+/* validation */
+.errorInput{border-color: var(--error);}
+.normalInput{border-color: var(--secondary);}
+
+/* radio inputs */
+
+.radios{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.inputs{
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type=radio] {
+    width: 0px;
+    appearance: none;
+    padding: 8px;
+    border: 2px solid var(--secondary);
+    border-radius: 50%;
+    transition: 0.1s all linear;
+}
+
+input[type=radio]:checked  {
+    padding: 5px;
+    border-width: 5px;
 }
