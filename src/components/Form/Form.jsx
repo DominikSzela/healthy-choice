@@ -12,10 +12,10 @@ const Form = forwardRef(({ setTextError }, ref) => {
         goal: "weight_loss",
     })
 
-    const [RangeAndStyle, setRangeAndStyle] = useState({
-        age: { min: 1, max: 250, classInput: styles.normalInput },
-        height: { min: 1, max: 300, classInput: styles.normalInput },
-        weight: { min: 1, max: 350, classInput: styles.normalInput }
+    const [numberInputs, setNumberInputs] = useState({
+        age: { name: 'age', polishName: 'wieku', min: 1, max: 250, unit: 'lat', classInput: styles.normalInput },
+        height: { name: 'height', polishName: 'wzrostu', min: 1, max: 300, unit: 'cm', classInput: styles.normalInput },
+        weight: { name: 'weight', polishName: 'wagi', min: 1, max: 350, unit: 'kg', classInput: styles.normalInput }
     });
 
     const handleKeyDown = (event) => {
@@ -23,39 +23,37 @@ const Form = forwardRef(({ setTextError }, ref) => {
         event.target.value = event.target.value.replace(/^0/, ""); //prevents zeros before numbers
     }
 
-
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((currentState) => ({ ...currentState, [name]: value }));
     }
 
     const resetInputsStyles = () => {
-        setRangeAndStyle(() => {
-            for (const category in RangeAndStyle) {
-                RangeAndStyle[category].classInput = styles.normalInput;
+        setNumberInputs(() => {
+            for (const category in numberInputs) {
+                numberInputs[category].classInput = styles.normalInput;
             }
-            return RangeAndStyle;
+            return numberInputs;
         });
     };
 
-    const validateInput = (category, { min, max }, inputValue, missingText) => {
+    const validateInput = ({ name, polishName, min, max, unit }, inputValue) => {
         const condition = min <= inputValue && inputValue <= max;
-        setTextError(condition ? null : `Dostępny przedział ${missingText} jest od ${min} do ${max} cm`);
+        setTextError(condition ? null : `Dostępny przedział ${polishName} od ${min} do ${max} ${unit}`);
         const classInput = condition ? styles.normalInput : styles.errorInput;
-        setRangeAndStyle(prevRangeAndStyle => ({
-            ...prevRangeAndStyle,
-            [category]: { ...prevRangeAndStyle[category], classInput }
+        setNumberInputs(classInputs => ({
+            ...classInputs,
+            [name]: { ...classInputs[name], classInput }
         }));
         return condition;
     };
 
     const checkForm = () => {
         resetInputsStyles();
-        const { age, height, weight } = formData;
         return (
-            validateInput('age', RangeAndStyle.age, age, 'wieku') &&
-            validateInput('height', RangeAndStyle.height, height, 'wzrostu') &&
-            validateInput('weight', RangeAndStyle.weight, weight, 'wagi')
+            validateInput(numberInputs.age, formData.age) &&
+            validateInput(numberInputs.height, formData.height) &&
+            validateInput(numberInputs.weight, formData.weight)
         );
     };
 
@@ -108,7 +106,7 @@ const Form = forwardRef(({ setTextError }, ref) => {
                     value={formData.age}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
-                    className={RangeAndStyle.age.classInput}
+                    className={numberInputs.age.classInput}
                 />
             </label>
             <label>
@@ -119,7 +117,7 @@ const Form = forwardRef(({ setTextError }, ref) => {
                     value={formData.height}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
-                    className={RangeAndStyle.height.classInput}
+                    className={numberInputs.height.classInput}
                 />
             </label>
             <label>
@@ -130,7 +128,7 @@ const Form = forwardRef(({ setTextError }, ref) => {
                     value={formData.weight}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
-                    className={RangeAndStyle.weight.classInput}
+                    className={numberInputs.weight.classInput}
                 />
             </label>
             <label>
