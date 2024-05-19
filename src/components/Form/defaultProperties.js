@@ -3,7 +3,8 @@ import styles from './form.module.css';
 const defaultProperties = {
     age: {
         name: 'age',
-        polishName: 'wieku',
+        polishName: 'wiek',
+        missingText: 'wieku',
         min: 1,
         max: 250,
         unit: 'lat',
@@ -11,7 +12,8 @@ const defaultProperties = {
     },
     height: {
         name: 'height',
-        polishName: 'wzrostu',
+        polishName: 'wzrost',
+        missingText: 'wzrostu',
         min: 1,
         max: 300,
         unit: 'cm',
@@ -19,7 +21,8 @@ const defaultProperties = {
     },
     weight: {
         name: 'weight',
-        polishName: 'wzrostu',
+        polishName: 'waga',
+        missingText: 'wagi',
         min: 1,
         max: 350,
         unit: 'kg',

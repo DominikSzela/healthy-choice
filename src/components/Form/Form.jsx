@@ -25,9 +25,9 @@ const Form = forwardRef(({ formData, setFormData, setTextError }, ref) => {
         });
     };
 
-    const validateInput = ({ name, polishName, min, max, unit }, inputValue) => {
+    const validateInput = ({ name, missingText, min, max, unit }, inputValue) => {
         const condition = min <= inputValue && inputValue <= max;
-        setTextError(condition ? null : `Dostępny przedział ${polishName} od ${min} do ${max} ${unit}`);
+        setTextError(condition ? null : `Dostępny przedział ${missingText} od ${min} do ${max} ${unit}`);
         const classInput = condition ? styles.normalInput : styles.errorInput;
         setNumberInputs(classInputs => ({
             ...classInputs,
@@ -54,69 +54,38 @@ const Form = forwardRef(({ formData, setFormData, setTextError }, ref) => {
     return (
         <form className={styles.wrapper}>
             <div className={styles.radios}>
-                <div>
-                    <label>
-                        Kobieta<br></br>
-                        <div className={styles.inputs}>
-                            <input
-                                type='radio'
-                                name='gender'
-                                value='female'
-                                onChange={handleChange}
-                                defaultChecked
-                            />
-                        </div>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Mężczyzna<br></br>
-                        <div className={styles.inputs}>
-                            <input
-                                type='radio'
-                                name='gender'
-                                value='male'
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </label>
-                </div>
+                {['female', 'male'].map(optionGender => (
+                    <div key={optionGender}>
+                        <label>
+                            {optionGender === 'female' ? 'Kobieta' : 'Mężczyzna'}<br />
+                            <div className={styles.inputs}>
+                                <input
+                                    type='radio'
+                                    name='gender'
+                                    value={optionGender}
+                                    onChange={handleChange}
+                                    defaultChecked={(formData.gender === optionGender)}
+                                />
+                            </div>
+                        </label>
+                    </div>
+                ))}
             </div>
+            {Object.values(numberInputs).map(input => (
+                <label key={input.name}>
+                    {input.polishName}:<br />
+                    <input
+                        type='number'
+                        name={input.name}
+                        value={formData[input.name]}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        className={input.classInput}
+                    />
+                </label>
+            ))}
             <label>
-                Wiek:<br></br>
-                <input
-                    type='number'
-                    name='age'
-                    value={formData.age}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className={numberInputs.age.classInput}
-                />
-            </label>
-            <label>
-                Wzrost:<br></br>
-                <input
-                    type='number'
-                    name='height'
-                    value={formData.height}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className={numberInputs.height.classInput}
-                />
-            </label>
-            <label>
-                Waga:<br></br>
-                <input
-                    type='number'
-                    name='weight'
-                    value={formData.weight}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className={numberInputs.weight.classInput}
-                />
-            </label>
-            <label>
-                ile razy tygodniowo trenujesz<br></br>
+                ile razy tygodniowo trenujesz<br />
                 <select
                     name="trainingDays"
                     value={formData.trainingDays}
@@ -127,7 +96,7 @@ const Form = forwardRef(({ formData, setFormData, setTextError }, ref) => {
                 </select>
             </label>
             <label>
-                Wybierz cel:<br></br>
+                Wybierz cel:<br />
                 <select
                     name="goal"
                     value={formData.goal}
