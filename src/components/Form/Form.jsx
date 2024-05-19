@@ -1,25 +1,13 @@
-import { postForm } from '../../API/Form';
 import styles from './form.module.css';
+import { postForm } from '../../API/Form';
+import { defaultProperties } from './defaultProperties';
 import { useState, forwardRef, useImperativeHandle } from 'react';
 
-const Form = forwardRef(({ setTextError }, ref) => {
-    const [formData, setFormData] = useState({
-        gender: "female",
-        age: "",
-        height: "",
-        weight: "",
-        trainingDays: "0-1",
-        goal: "weight_loss",
-    })
-
-    const [numberInputs, setNumberInputs] = useState({
-        age: { name: 'age', polishName: 'wieku', min: 1, max: 250, unit: 'lat', classInput: styles.normalInput },
-        height: { name: 'height', polishName: 'wzrostu', min: 1, max: 300, unit: 'cm', classInput: styles.normalInput },
-        weight: { name: 'weight', polishName: 'wagi', min: 1, max: 350, unit: 'kg', classInput: styles.normalInput }
-    });
+const Form = forwardRef(({ formData, setFormData, setTextError }, ref) => {
+    const [numberInputs, setNumberInputs] = useState(defaultProperties);
 
     const handleKeyDown = (event) => {
-        if (event.key === '-' || event.key === '.' || event.key === 'e') event.preventDefault(); //allow only numbers from 0 to 9
+        if (['-', '.', 'e'].includes(event.key)) event.preventDefault(); //allow only numbers from 0 to 9
         event.target.value = event.target.value.replace(/^0/, ""); //prevents zeros before numbers
     }
 
@@ -48,21 +36,17 @@ const Form = forwardRef(({ setTextError }, ref) => {
         return condition;
     };
 
-    const checkForm = () => {
-        resetInputsStyles();
+    const validateInputs = () => {
         return (
             validateInput(numberInputs.age, formData.age) &&
             validateInput(numberInputs.height, formData.height) &&
             validateInput(numberInputs.weight, formData.weight)
-        );
-    };
+        )
+    }
 
     const handleSubmit = () => {
-        if (checkForm()) {
-            postForm(formData);
-            return true;
-        }
-        else return false;
+        resetInputsStyles();
+        return validateInputs() ? (postForm(formData), true) : false;
     };
 
     useImperativeHandle(ref, () => ({ handleSubmit }));

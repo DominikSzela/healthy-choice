@@ -1,15 +1,10 @@
 import styles from './steps.module.css'
-import { forwardRef } from 'react';
 
-const Steps = forwardRef(({ formRef, step, textError, setStep }, ref) => {
+const Steps = ({ step, setStep, handleSubmit, textError }) => {
     const nextStep = () => {
-        if (step === 1) {
-            const isFormSent = formRef.current.handleSubmit() //use handleSubmit() from Form component, to send form
-            if (!isFormSent) return;
-        }
-        setStep(step + 1);
+        if ((step === 1 && !handleSubmit())) return; //if validation fails, stay on form
+        setStep(step + 1)
     };
-
     const previousStep = () => setStep(step - 1);
 
     return (
@@ -29,6 +24,6 @@ const Steps = forwardRef(({ formRef, step, textError, setStep }, ref) => {
             }
         </div>
     )
-})
+}
 
 export default Steps;
