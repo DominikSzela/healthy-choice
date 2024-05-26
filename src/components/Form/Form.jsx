@@ -1,25 +1,13 @@
-import { postForm } from '../../API/Form';
 import styles from './form.module.css';
+import { postData } from '../../API/postData';
+import { defaultProperties } from './defaultProperties';
 import { useState, forwardRef, useImperativeHandle } from 'react';
 
-const Form = forwardRef(({ setTextError }, ref) => {
-    const [formData, setFormData] = useState({
-        gender: "female",
-        age: "",
-        height: "",
-        weight: "",
-        trainingDays: "0-1",
-        goal: "weight_loss",
-    })
-
-    const [numberInputs, setNumberInputs] = useState({
-        age: { name: 'age', polishName: 'wieku', min: 1, max: 250, unit: 'lat', classInput: styles.normalInput },
-        height: { name: 'height', polishName: 'wzrostu', min: 1, max: 300, unit: 'cm', classInput: styles.normalInput },
-        weight: { name: 'weight', polishName: 'wagi', min: 1, max: 350, unit: 'kg', classInput: styles.normalInput }
-    });
-
+const Form = forwardRef(({ formData, setFormData, setTextError }, ref) => {
+    const [numberInputs, setNumberInputs] = useState(defaultProperties);
+    const postUrl = "http://localhost:8081/healthy_choice/submitted";
     const handleKeyDown = (event) => {
-        if (event.key === '-' || event.key === '.' || event.key === 'e') event.preventDefault(); //allow only numbers from 0 to 9
+        if (['-', '.', 'e'].includes(event.key)) event.preventDefault(); //allow only numbers from 0 to 9
         event.target.value = event.target.value.replace(/^0/, ""); //prevents zeros before numbers
     }
 
@@ -37,9 +25,9 @@ const Form = forwardRef(({ setTextError }, ref) => {
         });
     };
 
-    const validateInput = ({ name, polishName, min, max, unit }, inputValue) => {
+    const validateInput = ({ name, missingText, min, max, unit }, inputValue) => {
         const condition = min <= inputValue && inputValue <= max;
-        setTextError(condition ? null : `Dostępny przedział ${polishName} od ${min} do ${max} ${unit}`);
+        setTextError(condition ? null : `Dostępny przedział ${missingText} od ${min} do ${max} ${unit}`);
         const classInput = condition ? styles.normalInput : styles.errorInput;
         setNumberInputs(classInputs => ({
             ...classInputs,
@@ -48,21 +36,17 @@ const Form = forwardRef(({ setTextError }, ref) => {
         return condition;
     };
 
-    const checkForm = () => {
-        resetInputsStyles();
+    const validateInputs = () => {
         return (
             validateInput(numberInputs.age, formData.age) &&
             validateInput(numberInputs.height, formData.height) &&
             validateInput(numberInputs.weight, formData.weight)
-        );
-    };
+        )
+    }
 
     const handleSubmit = () => {
-        if (checkForm()) {
-            postForm(formData);
-            return true;
-        }
-        else return false;
+        resetInputsStyles();
+        return validateInputs() ? postData(formData, postUrl) : false; // return true if submitted successfully
     };
 
     useImperativeHandle(ref, () => ({ handleSubmit }));
@@ -70,69 +54,38 @@ const Form = forwardRef(({ setTextError }, ref) => {
     return (
         <form className={styles.wrapper}>
             <div className={styles.radios}>
-                <div>
-                    <label>
-                        Kobieta<br></br>
-                        <div className={styles.inputs}>
-                            <input
-                                type='radio'
-                                name='gender'
-                                value='female'
-                                onChange={handleChange}
-                                defaultChecked
-                            />
-                        </div>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Mężczyzna<br></br>
-                        <div className={styles.inputs}>
-                            <input
-                                type='radio'
-                                name='gender'
-                                value='male'
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </label>
-                </div>
+                {['female', 'male'].map(optionGender => (
+                    <div key={optionGender}>
+                        <label>
+                            {optionGender === 'female' ? 'Kobieta' : 'Mężczyzna'}<br />
+                            <div className={styles.inputs}>
+                                <input
+                                    type='radio'
+                                    name='gender'
+                                    value={optionGender}
+                                    onChange={handleChange}
+                                    defaultChecked={(formData.gender === optionGender)}
+                                />
+                            </div>
+                        </label>
+                    </div>
+                ))}
             </div>
+            {Object.values(numberInputs).map(input => (
+                <label key={input.name}>
+                    {input.polishName}:<br />
+                    <input
+                        type='number'
+                        name={input.name}
+                        value={formData[input.name]}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        className={input.classInput}
+                    />
+                </label>
+            ))}
             <label>
-                Wiek:<br></br>
-                <input
-                    type='number'
-                    name='age'
-                    value={formData.age}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className={numberInputs.age.classInput}
-                />
-            </label>
-            <label>
-                Wzrost:<br></br>
-                <input
-                    type='number'
-                    name='height'
-                    value={formData.height}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className={numberInputs.height.classInput}
-                />
-            </label>
-            <label>
-                Waga:<br></br>
-                <input
-                    type='number'
-                    name='weight'
-                    value={formData.weight}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className={numberInputs.weight.classInput}
-                />
-            </label>
-            <label>
-                ile razy tygodniowo trenujesz<br></br>
+                ile razy tygodniowo trenujesz<br />
                 <select
                     name="trainingDays"
                     value={formData.trainingDays}
@@ -143,7 +96,7 @@ const Form = forwardRef(({ setTextError }, ref) => {
                 </select>
             </label>
             <label>
-                Wybierz cel:<br></br>
+                Wybierz cel:<br />
                 <select
                     name="goal"
                     value={formData.goal}
