@@ -27,22 +27,25 @@ let personalData = {
     goal: "weight_loss"
 };
 
-app.get('/healthy_choice', (req, res) => {
-    res.json(personalData);
-})
-
 app.post('/healthy_choice/submitted', (req, res) => {
-    personalData = req.body;
-    return res.json(req.body);
-})
+    const { gender, age, height, weight, trainingDays, goal } = req.body;
+    if (!gender || !age || !height || !weight || !trainingDays || !goal) {
+        return res.status(400).json({ error: "missing one of the data" });
+    }
 
-app.get('/healthy_choice/diets', (req, res) => {
+    personalData = req.body;
+
+    res.status(200).json({ message: "successful" });
+});
+
+app.get('/healthy_choice/diet', (req, res) => {
     const sql = "SELECT * FROM diets";
     db.query(sql, (err, data) => {
         if (err) return res.json(err);
         res.json(data);
     })
 })
+
 app.get('/healthy_choice/equipment', (req, res) => {
     const sql = "SELECT * FROM equipment";
     db.query(sql, (err, data) => {
