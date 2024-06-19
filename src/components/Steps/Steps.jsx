@@ -2,7 +2,7 @@ import styles from './steps.module.css'
 
 const Steps = ({ step, setStep, handleSubmit, textError }) => {
     const nextStep = () => {
-        if ((step === 1 && !handleSubmit())) return; //go to step 2 if the form was successfully submitted
+        if (step === 1 && !handleSubmit()) return; //go to step 2 if the form was successfully submitted
         setStep(step + 1)
     };
     const previousStep = () => setStep(step - 1);
