@@ -1,14 +1,14 @@
 const GetHandler = ({ isLoading, error, children }) => {
     if (isLoading)
-        return <div>Pobierane dane...</div>;
+        return <h1>Pobierane dane...</h1>;
 
     if (error)
-        return <div>Błąd pobierania danych: {error}</div>;
+        return <h1>Błąd pobierania danych: {error}</h1>;
 
     if (children)
         return children
 
-    return <div>Brak danych do wyświetlenia</div>;
+    return <h1>Brak danych do wyświetlenia</h1>;
 }
 
 export default GetHandler;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getData } from '../API/getData';
 
 const useGetDiet = () => {
@@ -6,10 +6,12 @@ const useGetDiet = () => {
     const [errorDiet, setErrorDiet] = useState(null);
     const [diet, setDiet] = useState(null);
 
-    getData('http://localhost:8081/healthy_choice/diets')
-        .then((result) => { setDiet(result) })
-        .catch(() => { setErrorDiet('error get data') })
-        .finally(() => { setIsLoadingDiet(false); });
+    useEffect(() => {
+        getData('http://localhost:8081/healthy_choice/diet')
+            .then((result) => setDiet(result))
+            .catch((error) => setErrorDiet(error))
+            .finally(() => setIsLoadingDiet(false));
+    }, []);
 
     return { isLoadingDiet, errorDiet, diet };
 };
