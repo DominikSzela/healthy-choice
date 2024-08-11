@@ -1,0 +1,26 @@
+.dietBox {
+  padding: 20px;
+  border: var(--secondary) 5px solid;
+  border-radius: 5px;
+}
+
+.description {
+  margin: 20px 0;
+}
+
+.macronutrients {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.proportion {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--primary);
+}
+
+.type, .value {
+  color: var(--primary);
+}
