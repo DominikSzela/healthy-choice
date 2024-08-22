@@ -1,0 +1,29 @@
+.wrapper {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 50px;
+}
+
+.equipmentItems {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: auto;
+    word-wrap: break-word;
+    border: 5px solid var(--secondary);
+    border-radius: 5px;
+}
+
+.titleBox{
+    border-bottom: 2px solid var(--secondary) ;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}

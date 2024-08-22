@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getData } from '../API/getData';
 
 const useGetEquipment = () => {
@@ -6,10 +6,12 @@ const useGetEquipment = () => {
     const [errorEquipment, setErrorEquipment] = useState(null);
     const [equipment, setEquipment] = useState(null);
 
-    getData('http://localhost:8081/healthy_choice/equipment')
-        .then((result) => { setEquipment(result) })
-        .catch(() => { setErrorEquipment('error get data') })
-        .finally(() => { setIsLoadingEquipment(false); });
+    useEffect(() => {
+        getData('http://localhost:8081/healthy_choice/equipment')
+            .then((result) => setEquipment(result))
+            .catch((error) => setErrorEquipment(error))
+            .finally(() => setIsLoadingEquipment(false));
+    }, []);
 
     return { isLoadingEquipment, errorEquipment, equipment };
 };
