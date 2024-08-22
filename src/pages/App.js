@@ -15,7 +15,7 @@ function App() {
     age: "18",
     height: "175",
     weight: "80",
-    trainingDays: "0-1",
+    activity: "low",
     goal: "weight_loss",
   })
   const handleSubmit = () => { return formRef.current.handleSubmit() };
