@@ -1,25 +1,28 @@
-import { useEffect, useState } from 'react';
+import GetHandler from '../GetHandler/GetHandler';
+import useGetSupplements from '../../Hooks/useGetSupplements';
+import styles from './supplements.module.css'
 
 const Supplements = () => {
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:8081/healthy_choice/supplements')
-            .then(res => res.json())
-            .then(data => setData(data))
-            .catch(err => console.log(err));
-    }, []);
+    const { isLoadingSupplements, errorSupplements, supplements } = useGetSupplements();
 
     return (
-        <div>
-            <div>Suplementy:</div>
-            {data.map((supplement) => (
-                <div key={supplement.id}>
-                    <div>{supplement.type}</div>
-                    <div>{supplement.name}</div>
+        <div className={styles.wrapper}>
+            <h1 className={styles.title}>Suplementy:</h1>
+            <GetHandler
+                isLoading={isLoadingSupplements}
+                error={errorSupplements}
+            >
+                <div className={styles.supplementsItems} >
+                    {supplements && supplements.map(item => (
+                        <div className={styles.box} key={item.id}>
+                            <div className={styles.titleBox}>{item.name}</div>
+                            <div>{item.description}</div>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            </GetHandler >
         </div>
-    )
+    );
 }
 
 export default Supplements;

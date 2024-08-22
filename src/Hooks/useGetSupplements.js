@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getData } from '../API/getData';
 
 const useGetSupplements = () => {
@@ -6,10 +6,12 @@ const useGetSupplements = () => {
     const [errorSupplements, setErrorSupplements] = useState(null);
     const [supplements, setSupplements] = useState(null);
 
-    getData('http://localhost:8081/healthy_choice/supplements')
-        .then((result) => { setSupplements(result) })
-        .catch(() => { setErrorSupplements('error get data') })
-        .finally(() => { setIsLoadingSupplements(false); });
+    useEffect(() => {
+        getData('http://localhost:8081/healthy_choice/supplements')
+            .then((result) => setSupplements(result))
+            .catch((error) => setErrorSupplements(error))
+            .finally(() => setIsLoadingSupplements(false));
+    }, []);
 
     return { isLoadingSupplements, errorSupplements, supplements };
 };
