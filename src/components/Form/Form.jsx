@@ -55,7 +55,7 @@ const Form = forwardRef(({ formData, setFormData, setTextError }, ref) => {
 
     return (
         <>
-            {(isSending || errorForm || isSuccess === false) ? (
+            {(isSending === true || errorForm === true || isSuccess === false) ? (
                 <PostHandler isSending={isSending} errorForm={errorForm} isSuccess={isSuccess} />
             ) : (
                 <form className={styles.wrapper}>
@@ -91,14 +91,14 @@ const Form = forwardRef(({ formData, setFormData, setTextError }, ref) => {
                         </label>
                     ))}
                     <label>
-                        ile razy tygodniowo trenujesz<br />
+                        Aktywność fizyczna<br />
                         <select
-                            name="trainingDays"
-                            value={formData.trainingDays}
+                            name="activity"
+                            value={formData.activity}
                             onChange={handleChange}>
-                            <option value="0-1">0-1</option>
-                            <option value="2-4">2-4</option>
-                            <option value="5-7">5-7</option>
+                            <option value="low">Niska - Pracownik biurowy prowadzący siedzący tryb życia</option>
+                            <option value="moderate">Umiarkowana - Pracownik budowlany, bądź osoba uprawiająca jogging godzinę dziennie</option>
+                            <option value="high">Duża - Rolnik pracujący narzędziem ręcznym, bądź osoba pływająca dwie godziny dziennie</option>
                         </select>
                     </label>
                     <label>
