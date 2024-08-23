@@ -6,11 +6,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-});
-
 let db = mysql.createConnection({
     host: 'localhost',
     database: 'healthy_choice',
@@ -23,20 +18,15 @@ let personalData = {
     age: 0,
     height: 0,
     weight: 0,
-    trainingDays: "0-1",
+    activity: "low",
     goal: "weight_loss"
 };
 
-app.post('/healthy_choice/submitted', (req, res) => {
-    const { gender, age, height, weight, trainingDays, goal } = req.body;
-    if (!gender || !age || !height || !weight || !trainingDays || !goal) {
-        return res.status(400).json({ error: "missing one of the data" });
-    }
+const form = require('./steps/form');
 
-    personalData = req.body;
+const newPersonalData = (newData) => { personalData = { ...newData } };
 
-    res.status(200).json({ message: "successful" });
-});
+app.use(form(newPersonalData));
 
 app.get('/healthy_choice/diet', (req, res) => {
     const sql = "SELECT * FROM diets";
