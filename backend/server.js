@@ -24,19 +24,14 @@ let personalData = {
 
 const form = require('./steps/form');
 const diet = require('./steps/diet');
+const equipment = require('./steps/equipment');
 
 const newPersonalData = (newData) => { personalData = { ...newData } };
 const getPersonalData = () => personalData;
 
 app.use(form(newPersonalData));
 app.use(diet(db, getPersonalData));
-app.get('/healthy_choice/equipment', (req, res) => {
-    const sql = "SELECT * FROM equipment";
-    db.query(sql, (err, data) => {
-        if (err) return res.json(err);
-        res.json(data);
-    })
-})
+app.use(equipment(db, getPersonalData));
 
 app.get('/healthy_choice/supplements', (req, res) => {
     const sql = "SELECT * FROM supplements";
