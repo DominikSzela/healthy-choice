@@ -3,10 +3,10 @@ const app = express();
 app.use(express.json());
 
 function getTypeEquipment(age) { //function to check whether the equipment should be less dangerous  
-    if (age < 40) {
+    if (age < 60) {
         return "no";
     }
-    else { //personalData.age >= 40
+    else { //personalData.age >= 60
         return "yes"
     }
 }
